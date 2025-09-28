@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
     environment {
         IMAGE_NAME = "flask-devops-app"
     }
@@ -15,7 +15,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh 'python -m pip install --upgrade pip'
-                sh 'pip install -r requirements.txt'
+              sh 'pip install -r requirements.txt'
             }
         }
 
@@ -31,5 +31,11 @@ pipeline {
                 sh 'docker build -t $IMAGE_NAME .'
             }
         }
-    }
-}
+              
+        stage('Deploy with Ansible') {
+            steps {
+                dir('ansible') {
+                    sh 'ansible-playbook -i hosts deploy.yml'
+                }
+            }
+       }

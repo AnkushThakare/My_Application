@@ -1,0 +1,12 @@
+---
+- name: Deploy Flask app in Docker
+  hosts: local
+  connection: local
+  tasks:
+    - name: Ensure Flask Docker container is running
+      community.docker.docker_container:
+        name: flask_app
+        image: flask-devops-app
+        state: started
+        ports:
+          - "5000:5000"
